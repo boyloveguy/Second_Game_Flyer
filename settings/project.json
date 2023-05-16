@@ -2,16 +2,52 @@
   "assets-sort-type": "name",
   "collision-matrix": [
     [
-      false
-    ],
-    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
       false,
       false
     ],
     [
       false,
       false,
+      null,
+      null,
+      null,
+      null,
+      null,
+      false
+    ],
+    [
       false,
+      false,
+      false,
+      null,
+      false,
+      null,
+      null,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
+      null,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      null,
       null,
       true
     ],
@@ -20,19 +56,43 @@
       false,
       false,
       false,
+      false,
+      false,
+      null,
+      false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
       true
     ],
     [
       false,
       false,
+      false,
+      false,
       true,
+      false,
       true,
       false
     ]
   ],
   "design-resolution-height": 640,
   "design-resolution-width": 960,
-  "excluded-modules": [],
+  "excluded-modules": [
+    "Geom Utils",
+    "3D",
+    "3D Primitive",
+    "3D Physics/cannon.js",
+    "3D Physics/Builtin",
+    "3D Particle",
+    "SafeArea"
+  ],
   "facebook": {
     "appID": "",
     "audience": {
@@ -48,17 +108,25 @@
   "group-list": [
     "default",
     "background",
-    "player",
+    "btn Play",
+    "layout",
     "bullet",
+    "nameGame",
+    "player",
     "enemy"
   ],
   "last-module-event-record-time": 0,
   "simulator-orientation": false,
   "simulator-resolution": {
-    "height": 640,
-    "width": 960
+    "width": 960,
+    "height": 640
   },
   "use-customize-simulator": true,
   "use-project-simulator-setting": false,
-  "start-scene": "current"
+  "start-scene": "f3447ea4-1216-4e9b-8618-b95a5d062fcf",
+  "migrate-history": [
+    "cloud-function"
+  ],
+  "preview-port": 7456,
+  "clear-simulator-cache": true
 }
