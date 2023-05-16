@@ -701,7 +701,7 @@
       "__id__": 26
     },
     "playerAudio": {
-      "__uuid__": "0b265274-0373-404c-8738-a9172bb6d86c"
+      "__uuid__": "25053483-feb5-462c-8e3f-13e03bfe5383"
     },
     "_id": "e7mD7B/6pMs7BtLOHwuGAs"
   },
@@ -1464,6 +1464,9 @@
     "btn": {
       "__id__": 33
     },
+    "bulletAuido": {
+      "__uuid__": "020bd7b4-b592-4e69-9e89-038ffd3f408d"
+    },
     "_id": "cfBVtQm5xH9bEKeaRyoNUW"
   },
   {
@@ -2011,7 +2014,7 @@
       "__uuid__": "e8e01b38-65a9-4d6b-bb23-51dd8b5f1754"
     },
     "btnPlayAudio": {
-      "__uuid__": "a88f10ab-19ff-4123-8d43-9488f1522b1c"
+      "__uuid__": "84a60e0a-7145-4283-99f3-275eab78d7c2"
     },
     "_id": "32Ciwz0ylEIpO/BHUC3mxl"
   }

@@ -16,6 +16,9 @@ export default class BulletMGR extends cc.Component {
     @property(cc.Node)
     btn: cc.Node = null;
 
+    @property(cc.AudioClip)
+    bulletAuido: cc.AudioClip = null;
+
     pool: cc.NodePool = null
     // LIFE-CYCLE CALLBACKS:
 
@@ -39,6 +42,7 @@ export default class BulletMGR extends cc.Component {
         this.createOneBullet(px, py);
         this.createOneBullet(px + offset, py);
         this.createOneBullet(px - offset, py);
+        cc.audioEngine.playEffect(this.bulletAuido, false);
     }
 
     createOneBullet(x, y) {
