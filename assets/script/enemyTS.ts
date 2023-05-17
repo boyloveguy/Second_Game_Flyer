@@ -5,6 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 import EnemyMGR from "./enemy-mgrTS";
+import GameMgr from "./gameMgr";
 
 const { ccclass, property } = cc._decorator;
 
@@ -56,15 +57,15 @@ export default class Enemy extends cc.Component {
     }
 
     onCollisionEnter(other, self) {
-        this.hp -= 3;
-        if (this.hp <= 0) {
+        this.hp -= 5;
+        if (this.hp < 0) {
+            this.hp +=10
             this.node.getComponent(cc.Animation).play();
             cc.audioEngine.playEffect(this.enemyAudio, false);
             this.scheduleOnce(() => {
                 this.node.destroy();
                 this.game.increaseTime()
                 this.game.gainScoreCurent();
-                cc.log('1111')
             }, 0.2)
         }
         this.hpLab.string = this.hp + '';
@@ -82,6 +83,7 @@ export default class Enemy extends cc.Component {
             this.node.active = false
             this.game.player.getComponent(cc.Animation).play()
             cc.audioEngine.playEffect(this.playerAudio, false);
+            GameMgr.isLoadOverGame = true
             this.scheduleOnce(() => {
                 cc.director.loadScene('gameOver');
             }, 0.2)

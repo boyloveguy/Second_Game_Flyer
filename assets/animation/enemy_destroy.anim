@@ -14,10 +14,6 @@
           "active": [
             {
               "frame": 0,
-              "value": true
-            },
-            {
-              "frame": 0.03333333333333333,
               "value": false
             }
           ]
@@ -28,16 +24,12 @@
           "active": [
             {
               "frame": 0,
-              "value": false
-            },
-            {
-              "frame": 0.03333333333333333,
               "value": true
             }
           ],
           "opacity": [
             {
-              "frame": 0.016666666666666666,
+              "frame": 0,
               "value": 255
             },
             {
@@ -47,7 +39,7 @@
           ],
           "scale": [
             {
-              "frame": 0.016666666666666666,
+              "frame": 0,
               "value": {
                 "__type__": "cc.Vec3",
                 "x": 1,

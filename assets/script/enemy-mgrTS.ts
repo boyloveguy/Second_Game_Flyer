@@ -4,7 +4,7 @@
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/reference/attributes.html
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
-
+import GameMgr from "./gameMgr";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -33,13 +33,11 @@ export default class EnemyMGR extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        this.gainTimeCurent()
     }
-
+    
     start() {
         this.schedule(this.createOneEnemy, 4);
-
-
+        this.gainTimeCurent()
     }
 
     createOneEnemy() {
@@ -51,7 +49,7 @@ export default class EnemyMGR extends cc.Component {
     }
 
     increaseTime() {
-        this.getTime += 5
+        this.getTime += 10
         if (this.getTime >= 60) {
             this.getTime = 60
         }
@@ -61,10 +59,10 @@ export default class EnemyMGR extends cc.Component {
         this.Time.getComponent(cc.Label).string = 'Time: ' + this.getTime.toString();
         this.getTime -= 1
         let countdown = setInterval(() => {
-            if (this.getTime < 0 || this.Time == null) {
+            if (this.getTime < 0 || GameMgr.isLoadOverGame == true) {
                 clearInterval(countdown);
-                cc.audioEngine.playEffect(this.playerAudio, false);
                 cc.director.loadScene('gameOver');
+                return;
             }
             this.Time.getComponent(cc.Label).string = 'Time: ' + this.getTime.toString();
             --this.getTime;
@@ -72,11 +70,8 @@ export default class EnemyMGR extends cc.Component {
     }
 
     getPlayTime(playTime) {
-        let userData = {
-            playTime: playTime - 1,
-            playScore: this.scores,
-        }
-        cc.sys.localStorage.setItem('userData', JSON.stringify(userData));
+        GameMgr.time = playTime-1;
+        GameMgr.score = this.scores;
     }
 
     getHighestScore() {

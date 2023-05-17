@@ -5,6 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 
+import GameMgr from "./gameMgr";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -43,10 +45,21 @@ export default class TouchMove extends cc.Component {
     }
 
     stopAction() {
-        this.enemyMGR.active = false;
-        this.player.active = false;
-        this.bulletMGR.active = false;
-        this.displayCurent.active = false;
+        if (GameMgr.isFirstLoad) {
+            this.enemyMGR.active = false;
+            this.player.active = false;
+            this.bulletMGR.active = false;
+            this.displayCurent.active = false;
+            this.node.getChildByName('EnemyManager').active = false;
+        } else {
+            this.enemyMGR.active = true;
+            this.player.active = true;
+            this.bulletMGR.active = true;
+            this.displayCurent.active = true;
+            this.node.getChildByName('EnemyManager').active = true;
+            this.node.getChildByName('btn Play').active = false;
+            this.nameGame.active = false;
+        }
     }
 
 
@@ -57,7 +70,7 @@ export default class TouchMove extends cc.Component {
             this.player.x += delta.x;
             this.player.y += delta.y;
         }, this);
-
+        this.node.emit('btnPlay', 'this.directorScene()');
     }
 
     directorScene() {
@@ -68,6 +81,8 @@ export default class TouchMove extends cc.Component {
         this.node.getChildByName('btn Play').active = false;
         this.nameGame.active = false;
         cc.audioEngine.playEffect(this.btnPlayAudio, false);
+        this.node.getChildByName('EnemyManager').active = true;
+        GameMgr.isFirstLoad = false;
     }
 
     update(dt) {
