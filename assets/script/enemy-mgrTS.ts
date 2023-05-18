@@ -25,19 +25,20 @@ export default class EnemyMGR extends cc.Component {
     @property(cc.AudioClip)
     playerAudio: cc.AudioClip = null;
 
-    getTime: number = 60;
-    timeCurent: number = 0;
+    timeCurent: number = 20;
+    timePlay: number = 0;
     scores: number = 0;
     time: number = 0;
     // userData: object;
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+
     }
-    
+
     start() {
         this.schedule(this.createOneEnemy, 4);
-        this.gainTimeCurent()
+        // this.gainTimeCurent()
     }
 
     createOneEnemy() {
@@ -49,49 +50,54 @@ export default class EnemyMGR extends cc.Component {
     }
 
     increaseTime() {
-        this.getTime += 10
-        if (this.getTime >= 60) {
-            this.getTime = 60
+        this.timeCurent += 10
+        if (this.timeCurent >= 60) {
+            this.timeCurent = 60
         }
     }
 
-    gainTimeCurent() {
-        this.Time.getComponent(cc.Label).string = 'Time: ' + this.getTime.toString();
-        this.getTime -= 1
-        let countdown = setInterval(() => {
-            if (this.getTime < 0 || GameMgr.isLoadOverGame == true) {
-                clearInterval(countdown);
-                cc.director.loadScene('gameOver');
-                return;
-            }
-            this.Time.getComponent(cc.Label).string = 'Time: ' + this.getTime.toString();
-            --this.getTime;
-        }, 1000);
-    }
+    fancyTimeFormat(duration) {
+        // Hours, minutes and seconds
+        const hrs = ~~(duration / 3600);
+        const mins = ~~((duration % 3600) / 60);
+        const secs = ~~duration % 60;
+      
+        // Output like "1:01" or "4:03:59" or "123:03:59"
+        let ret = "";
+      
+        if (hrs > 0) {
+          ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+        }
+      
+        ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+        ret += "" + secs;
+      
+        return ret;
+      }
 
     getPlayTime(playTime) {
-        GameMgr.time = playTime-1;
+        GameMgr.time = playTime;
         GameMgr.score = this.scores;
     }
 
     getHighestScore() {
         let highData = {
-            highestScore: this.scores,
+            highestScore: GameMgr.score,
         }
         var getScore = JSON.parse(cc.sys.localStorage.getItem('highData'));
         let highScore = 0;
         if (!getScore) {
             cc.sys.localStorage.setItem('highData', JSON.stringify(highData));
-            highScore = this.scores;
+            highScore = GameMgr.score;
+            cc.log('1111')
         } else {
-            if (getScore.highestScore < this.scores) {
+            if (getScore.highestScore < GameMgr.score) {
                 cc.sys.localStorage.setItem('highData', JSON.stringify(highData));
-                highScore = this.scores;
+                highScore = GameMgr.score;
             } else {
                 highScore = getScore.highestScore;
             }
         }
-
     }
 
     gainScoreCurent() {
@@ -99,9 +105,19 @@ export default class EnemyMGR extends cc.Component {
         this.Score.getComponent(cc.Label).string = 'Score: ' + this.scores.toString();
     }
 
-    update(dt) {
-        this.timeCurent += dt
-        this.getPlayTime(this.timeCurent.toFixed(0));
-        this.getHighestScore();
+    async update(dt) {
+        this.timeCurent -= dt
+        this.timePlay += dt
+        this.getPlayTime(this.timePlay.toFixed(0));
+        let time = this.fancyTimeFormat(this.timeCurent)
+        this.Time.getComponent(cc.Label).string = 'Time: ' + time
+        if(this.timeCurent < 0){
+            GameMgr.isLoadScene = true;
+            cc.director.loadScene('gameOver');
+        }
+        if(GameMgr.isLoadScene){
+            this.getHighestScore();
+            GameMgr.isLoadScene = false;
+        }
     }
 }

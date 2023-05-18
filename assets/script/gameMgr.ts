@@ -4,5 +4,6 @@ export default class GameMgr {
     public static time: number = 0;
     public static score: number = 0;
     public static isLoadOverGame: boolean = false;
+    public static isLoadScene: boolean = false;
 
 }

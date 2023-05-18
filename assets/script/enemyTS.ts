@@ -59,13 +59,13 @@ export default class Enemy extends cc.Component {
     onCollisionEnter(other, self) {
         this.hp -= 5;
         if (this.hp < 0) {
-            this.hp +=10
+            this.hp +=20
             this.node.getComponent(cc.Animation).play();
             cc.audioEngine.playEffect(this.enemyAudio, false);
+            this.game.increaseTime()
+            this.game.gainScoreCurent();
             this.scheduleOnce(() => {
                 this.node.destroy();
-                this.game.increaseTime()
-                this.game.gainScoreCurent();
             }, 0.2)
         }
         this.hpLab.string = this.hp + '';
@@ -85,6 +85,7 @@ export default class Enemy extends cc.Component {
             cc.audioEngine.playEffect(this.playerAudio, false);
             GameMgr.isLoadOverGame = true
             this.scheduleOnce(() => {
+                GameMgr.isLoadScene = true;
                 cc.director.loadScene('gameOver');
             }, 0.2)
             this.node.active = false
