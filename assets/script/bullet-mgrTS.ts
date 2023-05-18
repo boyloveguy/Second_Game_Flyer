@@ -1,7 +1,3 @@
-
-
-import Bullet from "./bulletTS";
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -17,7 +13,7 @@ export default class BulletMGR extends cc.Component {
     btn: cc.Node = null;
 
     @property(cc.AudioClip)
-    bulletAuido: cc.AudioClip = null;
+    bulletAudio: cc.AudioClip = null;
 
     pool: cc.NodePool = null
     // LIFE-CYCLE CALLBACKS:
@@ -42,7 +38,7 @@ export default class BulletMGR extends cc.Component {
         this.createOneBullet(px, py);
         this.createOneBullet(px + offset, py);
         this.createOneBullet(px - offset, py);
-        cc.audioEngine.playEffect(this.bulletAuido, false);
+        cc.audioEngine.playEffect(this.bulletAudio, false);
     }
 
     createOneBullet(x, y) {

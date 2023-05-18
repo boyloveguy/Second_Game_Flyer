@@ -1,23 +1,17 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 import GameMgr from "./gameMgr";
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class GameOver extends cc.Component {
 
     @property(cc.Label)
-    playTimeLable: cc.Label = null;
-    
+    playTimeLabel: cc.Label = null;
+
     @property(cc.Label)
-    currentScoreLable: cc.Label = null;
-    
+    currentScoreLabel: cc.Label = null;
+
     @property(cc.Label)
-    highestScoreLable: cc.Label = null;
+    highestScoreLabel: cc.Label = null;
 
     @property(cc.AudioClip)
     btnAudio: cc.AudioClip = null;
@@ -27,29 +21,51 @@ export default class GameOver extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
         this.gainPlayTime()
-          this.node.on('btnPlay', function (msg) {
+        this.node.on('btnPlay', function (msg) {
             cc.log(msg)
-          });
+        });
     }
 
-    gainPlayTime(){
-        this.playTimeLable.string = 'Play Time: ' + GameMgr.time.toString();
-        this.currentScoreLable.string = 'Play Score: ' + GameMgr.score.toString();
-        var getScore = JSON.parse(cc.sys.localStorage.getItem('highData'));
-        this.highestScoreLable.string = 'Highest Score: ' + getScore.highestScore.toString();
+    getHighestScore() {
+        let highData = {
+            highestScore: GameMgr.score,
+        }
+        let getScore = JSON.parse(cc.sys.localStorage.getItem('highData'));
+        let highScore = 0;
+        if (!getScore) {
+            cc.sys.localStorage.setItem('highData', JSON.stringify(highData));
+            highScore = GameMgr.score;
+        } else {
+            if (getScore.highestScore < GameMgr.score) {
+                cc.sys.localStorage.setItem('highData', JSON.stringify(highData));
+                highScore = GameMgr.score;
+            } else {
+                highScore = getScore.highestScore;
+            }
+        }
     }
-    
+
+    gainPlayTime() {
+        this.getHighestScore();
+        this.playTimeLabel.string = 'Play Time: ' + GameMgr.time.toString();
+        this.currentScoreLabel.string = 'Play Score: ' + GameMgr.score.toString();
+        var getScore = JSON.parse(cc.sys.localStorage.getItem('highData'));
+        this.highestScoreLabel.string = 'Highest Score: ' + getScore.highestScore.toString();
+    }
+
     directorScene() {
         cc.director.loadScene('game');
         cc.audioEngine.playEffect(this.btnAudio, false);
-        GameMgr.isLoadOverGame = false;    
+        GameMgr.isLoadOverGame = false;
     }
 
-    start () {
+    start() {
 
     }
 
-    // update (dt) {}
+    update(dt) {
+
+    }
 }

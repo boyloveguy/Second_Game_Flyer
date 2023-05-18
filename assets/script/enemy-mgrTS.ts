@@ -1,9 +1,3 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 import GameMgr from "./gameMgr";
 const { ccclass, property } = cc._decorator;
 
@@ -25,7 +19,7 @@ export default class EnemyMGR extends cc.Component {
     @property(cc.AudioClip)
     playerAudio: cc.AudioClip = null;
 
-    timeCurent: number = 20;
+    timeCurent: number = 60;
     timePlay: number = 0;
     scores: number = 0;
     time: number = 0;
@@ -80,44 +74,24 @@ export default class EnemyMGR extends cc.Component {
         GameMgr.score = this.scores;
     }
 
-    getHighestScore() {
-        let highData = {
-            highestScore: GameMgr.score,
-        }
-        var getScore = JSON.parse(cc.sys.localStorage.getItem('highData'));
-        let highScore = 0;
-        if (!getScore) {
-            cc.sys.localStorage.setItem('highData', JSON.stringify(highData));
-            highScore = GameMgr.score;
-            cc.log('1111')
-        } else {
-            if (getScore.highestScore < GameMgr.score) {
-                cc.sys.localStorage.setItem('highData', JSON.stringify(highData));
-                highScore = GameMgr.score;
-            } else {
-                highScore = getScore.highestScore;
-            }
-        }
-    }
+
 
     gainScoreCurent() {
         this.scores += 1;
         this.Score.getComponent(cc.Label).string = 'Score: ' + this.scores.toString();
     }
 
-    async update(dt) {
+    update(dt) {
         this.timeCurent -= dt
         this.timePlay += dt
         this.getPlayTime(this.timePlay.toFixed(0));
         let time = this.fancyTimeFormat(this.timeCurent)
         this.Time.getComponent(cc.Label).string = 'Time: ' + time
+
         if(this.timeCurent < 0){
             GameMgr.isLoadScene = true;
             cc.director.loadScene('gameOver');
         }
-        if(GameMgr.isLoadScene){
-            this.getHighestScore();
-            GameMgr.isLoadScene = false;
-        }
+        // cc.log('111')
     }
 }

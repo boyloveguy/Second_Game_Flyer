@@ -1,9 +1,3 @@
-// Learn TypeScript:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/2.4/manual/en/scripting/life-cycle-callbacks.html
 import EnemyMGR from "./enemy-mgrTS";
 import GameMgr from "./gameMgr";
 
@@ -58,7 +52,7 @@ export default class Enemy extends cc.Component {
 
     onCollisionEnter(other, self) {
         this.hp -= 5;
-        if (this.hp < 0) {
+        if (this.hp <= 0) {
             this.hp +=20
             this.node.getComponent(cc.Animation).play();
             cc.audioEngine.playEffect(this.enemyAudio, false);
